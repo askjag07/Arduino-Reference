@@ -1,0 +1,46 @@
+#define CLOCK 9
+#define LATCH 11
+#define DATA 12
+
+byte leds = 0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(CLOCK, OUTPUT);
+  pinMode(LATCH, OUTPUT);
+  pinMode(DATA, OUTPUT);
+
+  updateShiftRegister();
+  Serial.println("Enter LED number from 1 to 8 to toggle.");
+}
+
+void loop()
+{
+  if (Serial.available())
+  {
+    char c = Serial.read();
+    if (c >= '1' && c <= '8')
+    {
+      bool off = true;
+      if (leds & (1 << (c - '1')))
+        bitClear(leds, c - '1');
+      else
+      {
+        off = false;
+        bitSet(leds, c - '1');
+      }
+      updateShiftRegister();
+      Serial.println("Turned " + String(off ? "off" : "on") + " LED " + String(c) + ".");
+    }
+    else
+      Serial.println("Invalid input. Please enter an integer from 1 to 8.");
+  }
+}
+
+void updateShiftRegister()
+{
+  digitalWrite(LATCH, LOW);
+  shiftOut(DATA, CLOCK, LSBFIRST, leds);
+  digitalWrite(LATCH, HIGH);
+}

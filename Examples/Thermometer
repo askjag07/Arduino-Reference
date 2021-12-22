@@ -1,0 +1,72 @@
+#include <LiquidCrystal.h>
+#include <IRremote.h>
+
+#define IR_RECIEVER 3
+#define TEMP_SENSOR A0
+
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+bool displayOn = true;
+
+IRrecv irReciever(IR_RECIEVER);
+decode_results results;
+int thisButton = -1;
+unsigned long irDebounce = 0;
+
+String units[] = {"F", "C", "K"};
+byte i = 0;
+
+void setup()
+{
+  pinMode(TEMP_SENSOR, INPUT);
+
+  irReciever.begin(IR_RECIEVER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
+  lcd.begin(16, 2);
+  lcd.print("Welcome, Akshaj!");
+}
+
+void loop()
+{
+  lcd.setCursor(0, 1);
+  lcd.print("Temp in " + units[i] + ": " + getTemp());
+  unsigned long ms = millis();
+  if (irReciever.decode() && ms - irDebounce >= 500)
+  {
+    irDebounce == ms;
+    switch (irReciever.decodedIRData.command)
+    {
+    case (68):
+      if (i > 0)
+        i--;
+      else
+        i = 2;
+      break;
+    case (67):
+      if (i < 2)
+        i++;
+      else
+        i = 0;
+      break;
+    case (69):
+      if (displayOn)
+        lcd.noDisplay();
+      else
+        lcd.display();
+      displayOn = !displayOn;
+      break;
+    }
+    irReciever.resume();
+  }
+}
+
+float getTemp()
+{
+  double tempInC = analogRead(TEMP_SENSOR);
+  tempInC = log(10000 * (1024 / tempInC - 1));
+  tempInC = 1 / (0.001129148 + (0.000234125 + 0.0000000876741 * pow(tempInC, 2)) * tempInC) - 273.15;
+
+  return (int)(10 * (i == 0 ? tempInC * 9 / 5 + 32
+                     : i == 1
+                         ? tempInC
+                         : tempInC + 273.15)) /
+         10.0;
+}

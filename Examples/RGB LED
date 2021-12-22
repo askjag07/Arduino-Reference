@@ -1,0 +1,30 @@
+#define RED 6
+#define BLUE 5
+#define GREEN 3
+
+void setup()
+{
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BLUE, OUTPUT);
+}
+
+void loop()
+{
+  color(true, true, true);
+  color(true, false, true);
+  color(true, false, false);
+  color(true, true, false);
+  color(false, true, false);
+  color(false, true, true);
+  color(false, false, true);
+  color(false, false, false);
+}
+
+void color(bool r, bool g, bool b)
+{
+  digitalWrite(RED, r ? HIGH : LOW);
+  digitalWrite(GREEN, g ? HIGH : LOW);
+  digitalWrite(BLUE, b ? HIGH : LOW);
+  delay(500);
+}

@@ -1,0 +1,32 @@
+#define CLOCK 9
+#define LATCH 11
+#define DATA 12
+
+byte leds = 0;
+
+void setup()
+{
+  pinMode(CLOCK, OUTPUT);
+  pinMode(LATCH, OUTPUT);
+  pinMode(DATA, OUTPUT);
+}
+
+void loop()
+{
+  leds = 0;
+  updateShiftRegister();
+  delay(400);
+  for (byte i = 0; i < 8; i++)
+  {
+    bitSet(leds, i);
+    updateShiftRegister();
+    delay(400);
+  }
+}
+
+void updateShiftRegister()
+{
+  digitalWrite(LATCH, LOW);
+  shiftOut(DATA, CLOCK, LSBFIRST, leds);
+  digitalWrite(LATCH, HIGH);
+}

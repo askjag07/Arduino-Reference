@@ -1,0 +1,24 @@
+#define JOY_BTN 2
+#define JOY_X A0
+#define JOY_Y A1
+
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(JOY_BTN, INPUT_PULLUP);
+  pinMode(JOY_X, INPUT);
+  pinMode(JOY_Y, INPUT);
+}
+
+void loop()
+{
+  Serial.print("X: ");
+  Serial.print(map(analogRead(JOY_X), 0, 1023, -512, 512));
+  Serial.print(" | Y: ");
+  Serial.print(map(analogRead(JOY_Y), 0, 1023, -512, 512));
+  Serial.print(" | Button: ");
+  Serial.println(digitalRead(JOY_BTN));
+
+  delay(100);
+}

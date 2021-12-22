@@ -1,0 +1,40 @@
+#include <HCSR04.h>
+
+const byte ledPin = LED_BUILTIN;
+const byte triggerPin = 12;
+const byte echoPin = 11;
+const byte buttonPin = 2;
+
+UltraSonicDistanceSensor distanceSensor(triggerPin, echoPin, 500);
+
+unsigned long distanceDebounce = 0;
+float distance = -1;
+
+void setup()
+{
+  Serial.begin(9600);
+
+  pinMode(buttonPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
+  measureDistance();
+}
+
+void loop()
+{
+  unsigned long ms = millis();
+
+  if (ms - distanceDebounce >= 500)
+  {
+    distanceDebounce = ms;
+    measureDistance();
+  }
+  digitalWrite(ledPin, (distance > 0 && distance <= 10) || digitalRead(buttonPin) == 1 ? HIGH : LOW);
+}
+
+void measureDistance()
+{
+  distance = distanceSensor.measureDistanceCm();
+  Serial.print(distance);
+  Serial.println("cm");
+}

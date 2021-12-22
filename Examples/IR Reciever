@@ -1,0 +1,27 @@
+#include <IRremote.h>
+
+#define IR_RECIEVER 11
+
+IRrecv irReciever(IR_RECIEVER);
+decode_results results;
+
+void setup()
+{
+  Serial.begin(9600);
+
+  irReciever.enableIRIn();
+}
+
+void loop()
+{
+  if (irReciever.decode())
+  {
+    irReciever.printIRResultShort(&Serial);
+    if (irReciever.decodedIRData.protocol == UNKNOWN)
+    {
+      irReciever.printIRResultRawFormatted(&Serial, true);
+    }
+    Serial.println();
+    irReciever.resume();
+  }
+}

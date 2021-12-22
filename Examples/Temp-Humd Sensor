@@ -1,0 +1,38 @@
+#include <SimpleDHT.h>
+
+#define TH_SENSOR 2
+
+SimpleDHT11 dht11(TH_SENSOR);
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  Serial.println("=================================");
+  Serial.println("Gathering Data...");
+
+  byte temperature = 0;
+  byte humidity = 0;
+  int err = SimpleDHTErrSuccess;
+  if ((err = dht11.read(&temperature, &humidity, NULL)) != SimpleDHTErrSuccess)
+  {
+    Serial.print("Read DHT11 failed, err=");
+    Serial.print(SimpleDHTErrCode(err));
+    Serial.print(",");
+    Serial.println(SimpleDHTErrDuration(err));
+    delay(1000);
+    return;
+  }
+
+  Serial.print("Success: ");
+  Serial.print((int)temperature);
+  Serial.print(" *C, ");
+  Serial.print((int)humidity);
+  Serial.println(" H");
+
+  // 1HZ sampling rate
+  delay(1500);
+}
