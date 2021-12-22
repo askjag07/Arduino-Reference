@@ -12,7 +12,7 @@ NOTE: You do not have to have a starter kit. You can still try some of the examp
 
 ## Tutorial
 
-Learn more in detail about each component in the kit with a structured tutorial divided into chapters with circuit diagrams, images, theory, and more. Access the more complicated code for certain chapters in the 'Examples' folder.
+It's all in 'Elegoo Super Starter Kit.pdf'. Learn more in detail about each component in the kit with a structured tutorial divided into chapters with circuit diagrams, images, theory, and more. Access the more complicated code for certain chapters in the 'Examples' folder.
 
 For more info, go to the Arduino [website](https://www.arduino.cc/en/Guide/) to get more documentation, tutorials, and even project ideas.
 
