@@ -5,7 +5,7 @@ A simple repository with lots of Arduino reference material for general use case
 ## Materials
 
 - Elegoo Super Starter Kit (Buy [here](https://www.amazon.com/ELEGOO-Project-Tutorial-Controller-Projects/dp/B01D8KOZF4/))
-- A Computer with the Arduino IDE (download [here](https://www.arduino.cc/en/software/))
+- A Computer with the Arduino IDE (Download [here](https://www.arduino.cc/en/software/))
 - Basic Programming Knowledge
 
 NOTE: You do not have to have a starter kit. You can still try some of the examples in this repository with an Arduino and some basic components.
