@@ -1,4 +1,4 @@
-# Arduino-Reference
+# Arduino
 
 A simple repository with lots of Arduino reference material for general use cases.
 
