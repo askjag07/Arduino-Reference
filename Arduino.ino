@@ -1,8 +1,9 @@
 #define DATA 2
-#define LATCH 3
-#define CLOCK 4
+#define LATCH 4
+#define CLOCK 7
 
 byte leds = 0;
+byte pins[] = {3, 5, 6};
 bool digits[10][8] = {
     {false, false, true, true, true, true, true, true},
     {false, false, false, false, false, true, true, false},
@@ -14,6 +15,7 @@ bool digits[10][8] = {
     {false, false, false, false, false, true, true, true},
     {false, true, true, true, true, true, true, true},
     {false, true, true, false, true, true, true, true}};
+int dir = 0;
 
 void setup()
 {
@@ -28,27 +30,22 @@ void setup()
 
 void loop()
 {
-  for (byte i = 0; i < 10; i++)
-  {
-    showDigit(i);
-    delay(1000);
-  }
-}
-
-void showDigit(byte digit)
-{
-  leds = 0;
-  for (byte i = 0; i < 9; i++)
-  {
-    if (digits[digit][i])
-      bitSet(leds, i);
-  }
+  delay(200);
   updateShiftRegister();
+  if (!dir)
+    leds <<= 1;
+  else
+    leds >>= 1;
+  if (leds & 0x8000)
+    dir = 1;
+  if (leds & 0x0001)
+    dir = 0;
 }
 
 void updateShiftRegister()
 {
   digitalWrite(LATCH, LOW);
-  shiftOut(DATA, CLOCK, LSBFIRST, leds);
+  shiftOut(DATA, CLOCK, MSBFIRST, (0xff00 & leds) >> 8);
+  shiftOut(DATA, CLOCK, MSBFIRST, 0xff00 & leds);
   digitalWrite(LATCH, HIGH);
 }
