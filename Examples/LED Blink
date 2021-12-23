@@ -1,0 +1,21 @@
+unsigned long prevTime = 0;
+boolean ledState = false;
+
+void setup()
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop()
+{
+  unsigned long currTime = millis();
+  if (currTime - prevTime >= 500)
+  {
+    if (ledState)
+      digitalWrite(LED_BUILTIN, LOW);
+    else
+      digitalWrite(LED_BUILTIN, HIGH);
+    prevTime = currTime;
+    ledState = !ledState;
+  }
+}
