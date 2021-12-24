@@ -1,0 +1,16 @@
+#include <Stepper.h>
+
+Stepper stepper(64, 8, 9, 10, 11);
+
+void setup()
+{
+    stepper.setSpeed(100);
+}
+
+void loop()
+{
+    stepper.step(64);
+    delay(500);
+    stepper.step(-64);
+    delay(500);
+}

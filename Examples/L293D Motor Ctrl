@@ -1,0 +1,29 @@
+byte dirPin1 = 3, dirPin2 = 4, spdPin = 5;
+
+void setup()
+{
+    pinMode(spdPin, OUTPUT);
+    pinMode(dirPin1, OUTPUT);
+    pinMode(dirPin2, OUTPUT);
+}
+
+void loop()
+{
+    spin();
+    delay(8000);
+    stop();
+    delay(2000);
+}
+
+void spin()
+{
+    analogWrite(spdPin, 255);
+    digitalWrite(dirPin1, LOW);
+    digitalWrite(dirPin2, HIGH);
+}
+
+void stop()
+{
+    digitalWrite(dirPin1, LOW);
+    digitalWrite(dirPin2, LOW);
+}
