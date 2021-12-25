@@ -1,0 +1,74 @@
+#include <HCSR04.h>
+
+byte ledPin = 13, dirPin1 = 12, dirPin2 = 11, spdPin = 10, echoPin = 9, trigPin = 8, buzzPin = 3, tltPin = 2;
+
+UltraSonicDistanceSensor distanceSensor(trigPin, echoPin, 500);
+float distance = -1;
+unsigned long debounce = 0;
+
+void setup()
+{
+    pinMode(ledPin, OUTPUT);
+    pinMode(spdPin, OUTPUT);
+    pinMode(dirPin1, OUTPUT);
+    pinMode(dirPin2, OUTPUT);
+    pinMode(buzzPin, OUTPUT);
+    pinMode(tltPin, INPUT_PULLUP);
+
+    distance = distanceSensor.measureDistanceCm();
+}
+
+void loop()
+{
+    if (digitalRead(tltPin) == HIGH)
+        move(true, 0);
+    else
+    {
+        digitalWrite(ledPin, HIGH);
+        if (getDistance() < 12)
+            throwTantrum();
+        else
+        {
+            move(true, 255);
+        }
+    }
+}
+
+float getDistance()
+{
+    unsigned long ms = millis();
+    if (ms - debounce >= 100)
+    {
+        debounce = ms;
+        distance = distanceSensor.measureDistanceCm();
+    }
+    return distance;
+}
+
+void move(bool f, byte s)
+{
+    analogWrite(spdPin, s);
+    digitalWrite(dirPin1, s == 0 ? LOW : f ? HIGH
+                                           : LOW);
+    digitalWrite(dirPin2, s == 0 ? LOW : f ? LOW
+                                           : HIGH);
+}
+
+void throwTantrum()
+{
+    move(false, 255);
+    for (byte i = 0; i < 25; i++)
+        play(1600 - 34 * i, 30);
+    digitalWrite(ledPin, LOW);
+    move(true, 255);
+    for (byte i = 1; i < 26; i++)
+        play(750 + 34 * i, 30);
+    move(true, 0);
+}
+
+void play(int hz, unsigned long d)
+{
+    tone(buzzPin, hz, d);
+    delay(d);
+    noTone(buzzPin);
+}

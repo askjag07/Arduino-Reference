@@ -20,6 +20,10 @@ For more info, go to the Arduino [website](https://www.arduino.cc/en/Guide/) to 
 
 View sample code in the 'Examples' folder to learn more about various Arduino component integrations.
 
+## Projects
+
+View more sample code in the 'Projects' folder to get an idea of how more complex projects function.
+
 ## About Elegoo
 
 Elegoo is the best, low-cost spinoff of Arduino on the market. The only difference between its product and an Arduino product is the quality of the box it comes in; it can replace an Arduino in projects without a problem.
